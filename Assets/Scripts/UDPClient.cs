@@ -16,16 +16,22 @@ public class UDPClient : MonoBehaviour
     private static IPEndPoint remoteEP;
     private static Socket client;
 
-    public static void RunClient()
+    public static void NetworkingInit()
     {
         IPAddress ip = IPAddress.Parse("192.168.2.13");
         remoteEP = new IPEndPoint(ip, 11111);
 
         client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+    }
 
-        outBuffer = Encoding.ASCII.GetBytes("Test data :D");
+    public static void SendData(string data)
+    {
+        outBuffer = Encoding.ASCII.GetBytes(data);
         client.SendTo(outBuffer, remoteEP);
+    }
 
+    public static void NetworkingShutdown()
+    {
         client.Shutdown(SocketShutdown.Both);
         client.Close();
     }
@@ -33,6 +39,8 @@ public class UDPClient : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        RunClient();
+        NetworkingInit();
+        SendData(myCube.transform.position.ToString());
+        NetworkingShutdown();
     }
 }

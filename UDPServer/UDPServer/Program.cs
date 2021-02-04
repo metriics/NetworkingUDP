@@ -26,8 +26,11 @@ public class UDPServer
             server.Bind(localEP);
             Console.WriteLine("Waiting...");
 
-            int rec = server.ReceiveFrom(buffer, ref remoteClient);
-            Console.WriteLine($"Recieved from {remoteClient.ToString()}: {Encoding.ASCII.GetString(buffer, 0, rec)}");
+            while (true)
+            {
+                int rec = server.ReceiveFrom(buffer, ref remoteClient);
+                Console.WriteLine($"Recieved from {remoteClient.ToString()}: {Encoding.ASCII.GetString(buffer, 0, rec)}");
+            }
 
             server.Shutdown(SocketShutdown.Both);
             server.Close();

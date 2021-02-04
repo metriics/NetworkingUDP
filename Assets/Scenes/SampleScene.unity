@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5a9a6ddc2ba4ed4c8089f893fb0c500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCube: {fileID: 0}
+  myCube: {fileID: 371862677}
 --- !u!1 &1453689178
 GameObject:
   m_ObjectHideFlags: 0
