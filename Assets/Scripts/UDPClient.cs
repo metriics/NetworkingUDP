@@ -18,10 +18,14 @@ public class UDPClient : MonoBehaviour
 
     public static void NetworkingInit()
     {
-        IPAddress ip = IPAddress.Parse("192.168.2.13");
+        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+        IPAddress ip = host.AddressList[1];
+
         remoteEP = new IPEndPoint(ip, 11111);
 
         client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+
+        Debug.Log("Networking initialized");
     }
 
     public static void SendData(string data)
@@ -34,13 +38,24 @@ public class UDPClient : MonoBehaviour
     {
         client.Shutdown(SocketShutdown.Both);
         client.Close();
+        Debug.Log("Networking shutdown");
     }
 
     // Start is called before the first frame update
     void Start()
     {
         NetworkingInit();
-        SendData(myCube.transform.position.ToString());
+    }
+
+    private void Update()
+    {
+        string data = $"{myCube.transform.position.x},{myCube.transform.position.y},{myCube.transform.position.z}";
+
+        SendData(data);
+    }
+
+    private void OnDestroy()
+    {
         NetworkingShutdown();
     }
 }
